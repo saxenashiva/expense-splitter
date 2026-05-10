@@ -18,7 +18,9 @@ import {
   WalletCards,
 } from 'lucide-react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const apiUrl = rawApiUrl.replace(/\/$/, '');
+const API_URL = apiUrl.endsWith('/api') ? apiUrl : `${apiUrl}/api`;
 const TOKEN_KEY = 'expense-splitter-token';
 
 type User = {
