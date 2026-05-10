@@ -1,0 +1,10 @@
+{
+  "name": "expense-splitter",
+  "private": true,
+  "scripts": {
+    "build": "cd server && npm install && npm run build",
+    "start": "cd server && npm run db:deploy && npm start",
+    "dev:client": "cd client && npm install && npm run dev",
+    "dev:server": "cd server && npm install && npm run dev"
+  }
+}
