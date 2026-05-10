@@ -163,7 +163,11 @@ export default function App() {
   const showError = (unknownError: unknown) => {
     let message = 'Something went wrong';
     if (axios.isAxiosError(unknownError)) {
-      message = String(unknownError.response?.data?.error || unknownError.message);
+      message = String(
+        unknownError.response?.data?.error ||
+          unknownError.message ||
+          'Network error. Make sure the backend is running and the API URL is correct.',
+      );
     }
     setError(message);
     pushToast(message, 'error');

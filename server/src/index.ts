@@ -14,6 +14,12 @@ const prisma = new PrismaClient();
 const PORT = Number(process.env.PORT || 5000);
 const JWT_SECRET = process.env.JWT_SECRET;
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || '*';
+const DEFAULT_LOCAL_ORIGINS = [
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:5175',
+  'http://127.0.0.1:5175',
+];
 const SMTP_HOST = process.env.SMTP_HOST;
 const SMTP_PORT = Number(process.env.SMTP_PORT || 587);
 const SMTP_USER = process.env.SMTP_USER;
@@ -322,7 +328,15 @@ app.use(helmet());
 app.use(express.json({ limit: '1mb' }));
 app.use(
   cors({
-    origin: CLIENT_ORIGIN === '*' ? true : CLIENT_ORIGIN.split(',').map((origin) => origin.trim()),
+    origin:
+      CLIENT_ORIGIN === '*'
+        ? true
+        : Array.from(
+            new Set([
+              ...CLIENT_ORIGIN.split(',').map((origin) => origin.trim()),
+              ...DEFAULT_LOCAL_ORIGINS,
+            ]),
+          ),
     credentials: true,
   }),
 );
